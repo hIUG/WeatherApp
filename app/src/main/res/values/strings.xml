@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment ASDF ASDF ASDF QWER</string>
 </resources>
