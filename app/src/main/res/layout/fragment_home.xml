@@ -1,13 +1,133 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackgroundLightGrey"
+    android:orientation="vertical"
     tools:context="com.allexis.weatherapp.ui.module.home.HomeFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/current_weather_container_cl"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="ASDFQWERASDFQWERASDFQWERASDFQWERASDFQWE" />
+        android:visibility="visible">
 
-</RelativeLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:alpha="0.1"
+            android:background="@drawable/background_black_gradient_top"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/current_weather_gradient_bottom_v"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="0dp"
+            android:alpha="0.1"
+            android:background="@drawable/background_black_gradient_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_weather_desc_tv" />
+
+        <ImageView
+            android:id="@+id/current_weather_iv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/current_weather_location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Nassau Bay, US"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:layout_constraintLeft_toRightOf="@+id/current_weather_iv"
+            app:layout_constraintTop_toTopOf="@+id/current_weather_iv" />
+
+        <TextView
+            android:id="@+id/current_weather_temp_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="79 °F"
+            app:layout_constraintLeft_toRightOf="@+id/current_weather_location_tv"
+            app:layout_constraintTop_toTopOf="@+id/current_weather_location_tv" />
+
+        <TextView
+            android:id="@+id/current_weather_desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Sky is Clear"
+            app:layout_constraintLeft_toRightOf="@+id/current_weather_iv"
+            app:layout_constraintTop_toBottomOf="@+id/current_weather_location_tv" />
+
+        <TextView
+            android:id="@+id/current_weather_temp_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:text="min: 75 °F"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/current_weather_temp_max_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:text="max: 95 °F"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_weather_temp_min" />
+    </android.support.constraint.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/weather_selections_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/not_saved_location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:maxWidth="@dimen/not_saved_location_text_width"
+            android:minLines="2"
+            android:paddingTop="@dimen/not_saved_location_padding_top"
+            android:text="@string/not_saved_locations"
+            android:textAlignment="center"
+            android:visibility="gone" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/search_location_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/fab_margin"
+            app:borderWidth="0dp"
+            app:elevation="12dp"
+            app:srcCompat="@android:drawable/ic_menu_search" />
+    </RelativeLayout>
+</LinearLayout>

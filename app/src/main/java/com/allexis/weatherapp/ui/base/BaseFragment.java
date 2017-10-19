@@ -1,5 +1,6 @@
 package com.allexis.weatherapp.ui.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,19 +14,26 @@ import android.widget.Toast;
  * common functionality among all fragments in the app.
  */
 
-public abstract class BaseFragment extends Fragment implements BaseContract.BaseView {
+public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends Fragment implements BaseContract.BaseView, View.OnClickListener {
 
+    protected T presenter;
     private FragmentInteractionListener fragmentInteractionListener;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.onResume();
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-//        EventDispatcher.subscribe(this);
+        presenter.onStart();
     }
 
     @Override
     public void onStop() {
-//        EventDispatcher.unsubscribe(this);
+        presenter.onStop();
         super.onStop();
     }
 
@@ -50,6 +58,11 @@ public abstract class BaseFragment extends Fragment implements BaseContract.Base
     public void onDetach() {
         super.onDetach();
         fragmentInteractionListener = null;
+    }
+
+    @Override
+    public Activity getContainerActivity() {
+        return getActivity();
     }
 
     protected abstract void init();

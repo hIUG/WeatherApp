@@ -13,7 +13,7 @@ import kotlinx.android.parcel.Parcelize
  */
 
 @Parcelize data class ForecastResponse(val cod: String,
-                                       val message: Boolean,
+                                       val message: Double,
                                        val cnt: Int,
                                        val list: kotlin.collections.List<List>,
                                        val city: City) : Parcelable

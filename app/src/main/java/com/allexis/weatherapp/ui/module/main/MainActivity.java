@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.allexis.weatherapp.R;
+import com.allexis.weatherapp.core.util.RuntimePermissionUtil;
 import com.allexis.weatherapp.ui.base.BaseFragment;
 import com.allexis.weatherapp.ui.module.home.HomeFragment;
 
@@ -39,12 +41,21 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
 
         boolean performAnimation = false;
         if (savedInstanceState == null) {
-            goToNewFragment(HomeFragment.getInstance());
+            goToNewFragment(HomeFragment.newInstance());
             if (getIntent() != null && getIntent().getExtras() != null) {
                 performAnimation = getIntent().getExtras().getBoolean(PERFORM_INITIAL_ANIMATION);
             }
         }
         setupAnimation(performAnimation);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void init() {
+
     }
 
     private void setupAnimation(boolean performAnimation) {
@@ -70,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
 
     private void hideImageViewReverseIcon() {
         imageViewReversedIcon.setVisibility(View.GONE);
+        init();
     }
 
     @Override
@@ -94,6 +106,13 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
     public <F extends BaseFragment> void goToNewFragment(F fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_content_layout, fragment, fragment.getFragmentTag());
+        transaction.addToBackStack(fragment.getFragmentTag());
         transaction.commit();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //Restart the permission process, this app needs location permission, it's core functionality
+        RuntimePermissionUtil.requestLocationPermission(this);
     }
 }

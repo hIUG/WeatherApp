@@ -1,5 +1,6 @@
 package com.allexis.weatherapp.ui.module.home;
 
+import com.allexis.weatherapp.core.network.service.weather.WeatherResponse;
 import com.allexis.weatherapp.ui.base.BaseContract;
 
 /**
@@ -9,8 +10,11 @@ import com.allexis.weatherapp.ui.base.BaseContract;
 public interface HomeContract {
 
     interface View extends BaseContract.BaseView {
+
+        void updateCurrentWeather(WeatherResponse responseObject);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
+
     }
 }

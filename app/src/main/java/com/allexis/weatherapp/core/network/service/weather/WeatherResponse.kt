@@ -1,6 +1,8 @@
 package com.allexis.weatherapp.core.network.service.weather
 
 import android.os.Parcelable
+import com.allexis.weatherapp.core.network.service.NetworkController
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -31,19 +33,31 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize data class Weather(val id: Int,
                               val main: String,
                               val description: String,
-                              val icon: String) : Parcelable
+                              val icon: String) : Parcelable {
+    fun getIconUrl(): String = NetworkController.BASE_URL_IMG + icon + ".png"
+}
 
-@Parcelize data class Main(val temp: Double,
-                           val pressure: Int,
+@Parcelize data class Main(private val temp: Double,
+                           val pressure: Double,
                            val humidity: Int,
-                           val tempMin: Double,
-                           val tempMax: Double,
+                           @SerializedName("temp_min") private val tempMin: Double,
+                           @SerializedName("temp_max") private val tempMax: Double,
                            val seaLevel: Double,
                            val grndLevel: Double,
-                           val tempKf: Int) : Parcelable
+                           val tempKf: Int) : Parcelable {
+    fun getTempKelvin(): Double = temp
+    fun getTempFarenheit(): Double = ((temp - 273.15) * 9 / 5) + 32
+    fun getTempCelsius(): Double = (temp - 273.15)
+    fun getTempMinKelvin(): Double = tempMin
+    fun getTempMinFarenheit(): Double = ((tempMin - 273.15) * 9 / 5) + 32
+    fun getTempMinCelsius(): Double = (tempMin - 273.15)
+    fun getTempMaxKelvin(): Double = tempMax
+    fun getTempMaxFarenheit(): Double = ((tempMax - 273.15) * 9 / 5) + 32
+    fun getTempMaxCelsius(): Double = (tempMax - 273.15)
+}
 
 @Parcelize data class Wind(val speed: Double,
-                           val deg: Int) : Parcelable
+                           val deg: Double) : Parcelable
 
 @Parcelize data class Clouds(val all: Int) : Parcelable
 
@@ -51,5 +65,5 @@ import kotlinx.android.parcel.Parcelize
                           val id: Int,
                           val message: Double,
                           val country: String,
-                          val sunrise: Int,
-                          val sunset: Int) : Parcelable
+                          val sunrise: Long,
+                          val sunset: Long) : Parcelable

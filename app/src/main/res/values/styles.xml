@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DefaultTitleStyle" parent="TextAppearance.AppCompat.Display1">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="DefaultTinyTitleStyle" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">10dp</item>
+    </style>
+
 </resources>

@@ -1,0 +1,200 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.allexis.weatherapp.ui.module.forecastdetail.ForecastDetailFragment">
+
+    <ImageView
+        android:id="@+id/forecast_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/forecast_location_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="0dp"
+        android:text="Nassau Bay, US"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintLeft_toRightOf="@+id/forecast_iv"
+        app:layout_constraintTop_toTopOf="@+id/forecast_iv"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <TextView
+        android:id="@+id/forecast_description_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Sky is Clear"
+        app:layout_constraintLeft_toRightOf="@+id/forecast_iv"
+        app:layout_constraintTop_toBottomOf="@+id/forecast_location_tv" />
+
+    <TextView
+        android:id="@+id/forecast_temp_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="79 °F"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintLeft_toRightOf="@+id/forecast_iv"
+        app:layout_constraintTop_toBottomOf="@+id/forecast_description_tv" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorGrayDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/forecast_temp_tv"
+        app:layout_constraintLeft_toRightOf="@+id/forecast_temp_tv"
+        app:layout_constraintTop_toTopOf="@+id/forecast_temp_tv" />
+
+    <TextView
+        android:id="@+id/forecast_temp_min_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:text="min: 75 °F"
+        app:layout_constraintLeft_toRightOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/forecast_temp_tv" />
+
+    <TextView
+        android:id="@+id/forecast_temp_max_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-1dp"
+        android:layout_marginLeft="8dp"
+        android:text="max: 95 °F"
+        app:layout_constraintBottom_toBottomOf="@+id/forecast_temp_tv"
+        app:layout_constraintLeft_toRightOf="@+id/view" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorGrayDivider"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/forecast_iv" />
+
+    <TextView
+        android:id="@+id/forecast_sunrise_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="8dp"
+        android:text="Sunrise: 08:24"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        app:layout_constraintLeft_toLeftOf="@+id/forecast_iv"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/forecast_relative_time_sunrise_tv"
+        style="@style/DefaultTinyTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:text="(5 hours ago)"
+        app:layout_constraintLeft_toLeftOf="@+id/forecast_sunrise_tv"
+        app:layout_constraintTop_toBottomOf="@+id/forecast_sunrise_tv" />
+
+    <TextView
+        android:id="@+id/forecast_sunset_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="0dp"
+        android:text="Sunset: 19:45"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        app:layout_constraintBottom_toBottomOf="@+id/forecast_sunrise_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/forecast_sunrise_tv"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/forecast_relative_time_sunset_tv"
+        style="@style/DefaultTinyTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:text="(In 7 hours)"
+        app:layout_constraintLeft_toLeftOf="@+id/forecast_sunset_tv"
+        app:layout_constraintTop_toBottomOf="@+id/forecast_sunset_tv" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorGrayDivider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/forecast_relative_time_sunrise_tv" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/forecast_temperature_line_chart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/view5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/forecast_sunrise_tv"
+        app:layout_constraintRight_toRightOf="@+id/forecast_sunset_tv"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/forecast_sunrise_tv"
+        app:layout_constraintRight_toRightOf="@+id/forecast_sunset_tv"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/forecast_rain_line_chart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/forecast_sunrise_tv"
+        app:layout_constraintRight_toRightOf="@+id/forecast_sunset_tv"
+        app:layout_constraintTop_toBottomOf="@+id/view5"
+        app:layout_constraintVertical_bias="0.494" />
+
+</android.support.constraint.ConstraintLayout>

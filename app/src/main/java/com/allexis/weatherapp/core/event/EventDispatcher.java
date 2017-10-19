@@ -14,15 +14,15 @@ public final class EventDispatcher {
     private EventDispatcher() {
     }
 
-    public static void subscribe(Object subscriber) {
+    public static void register(Object subscriber) {
         EventBus.getDefault().register(subscriber);
     }
 
-    public static void unsubscribe(Object subscriber) {
+    public static void unregister(Object subscriber) {
         EventBus.getDefault().unregister(subscriber);
     }
 
-    public static <T extends NetworkEvent> void publish(T event) {
+    public static <T> void post(T event) {
         EventBus.getDefault().post(event);
     }
 }
