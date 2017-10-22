@@ -10,7 +10,8 @@ import com.allexis.weatherapp.core.network.service.forecast.ForecastEvent;
 import com.allexis.weatherapp.core.network.service.forecast.model.ForecastListElement;
 import com.allexis.weatherapp.core.network.service.weather.WeatherController;
 import com.allexis.weatherapp.core.network.service.weather.WeatherEvent;
-import com.allexis.weatherapp.core.util.TemperatureUtil;
+import com.allexis.weatherapp.core.persist.data.SavedLocation;
+import com.allexis.weatherapp.core.persist.data.Temperature;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -35,7 +36,9 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
     private WeatherController weatherController;
     private ForecastController forecastController;
 
-    private int zipToSearch;
+    private int cityId;
+    private int zipCode;
+    private boolean isSavedLocation;
 
     public ForecastDetailPresenter(ForecastDetailContract.View view) {
         this.view = view;
@@ -60,33 +63,51 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
 
     @Override
     public void getWeatherByZip(int zipCode) {
+        this.zipCode = zipCode;
         this.weatherController.getWeather(zipCode);
     }
 
     @Override
     public void getWeatherByCityId(int cityId) {
+        setIsSavedLocation(cityId);
         this.weatherController.getWeatherByCityId(cityId);
     }
 
     @Override
     public void getForecastByZip(int zipCode) {
-        this.zipToSearch = zipCode;
+        this.zipCode = zipCode;
         this.forecastController.getForecast(zipCode);
     }
 
     @Override
     public void getForecastByCityId(int cityId) {
+        setIsSavedLocation(cityId);
         this.forecastController.getForecastByCityId(cityId);
     }
 
     @Override
     public void toggleSave() {
-        view.showShortToast("Toggle");
+        SavedLocation.toggleSavedLocation(cityId);
+        isSavedLocation = !isSavedLocation;
+        view.updateSavedIcon(isSavedLocation);
+        view.showLongToast(String.format(view.getContainerActivity().getString(R.string.location_saved_changed), isSavedLocation
+                ? view.getContainerActivity().getString(R.string.saved)
+                : view.getContainerActivity().getString(R.string.removed)));
+    }
+
+    private void setIsSavedLocation(int cityId) {
+        if (this.cityId == 0) {
+            this.cityId = cityId;
+            isSavedLocation = SavedLocation.isSavedLocation(cityId);
+            view.updateSavedIcon(isSavedLocation);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWeatherEvent(WeatherEvent event) {
         if (event.isSuccessful()) {
+            setIsSavedLocation(event.getResponseObject().getId());
+
             view.updateDetailWeather(event.getResponseObject());
         }
         //Error cases already processed at onForecastEvent
@@ -95,6 +116,8 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onForecastEvent(ForecastEvent event) {
         if (event.isSuccessful()) {
+            setIsSavedLocation(event.getResponseObject().getCity().getId());
+
             ForecastListElement forecastItem;
             List<Entry> temperatureAxisY = new ArrayList<>();
             List<Entry> humidityAxisY = new ArrayList<>();
@@ -113,7 +136,7 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
             }
 
             LineDataSet temperatureDataSet = new LineDataSet(temperatureAxisY,
-                    String.format(view.getContainerActivity().getString(R.string.forecast_title_temperature), TemperatureUtil.preferredTemp));
+                    String.format(view.getContainerActivity().getString(R.string.forecast_title_temperature), Temperature.getPreferredTemp()));
             temperatureDataSet.setColor(ResourcesCompat.getColor(view.getContainerActivity().getResources(), R.color.color_chart_line_temp, null));
             temperatureDataSet.setCircleColor(ResourcesCompat.getColor(view.getContainerActivity().getResources(), R.color.color_chart_circle_temp, null));
             view.updateDetailForecastTemperature(new LineData(temperatureDataSet), new IndexAxisValueFormatter(labelAxisX));
@@ -126,7 +149,7 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
 
             return;
         } else if (event.getCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-            view.showLongToast(String.format(view.getContainerActivity().getString(R.string.city_not_found), String.valueOf(zipToSearch)));
+            view.showLongToast(String.format(view.getContainerActivity().getString(R.string.city_not_found), String.valueOf(zipCode)));
         } else {
             view.showLongToast(view.getContainerActivity().getString(R.string.unable_to_process_request));
         }

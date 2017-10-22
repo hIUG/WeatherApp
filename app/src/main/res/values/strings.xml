@@ -24,4 +24,7 @@
 
     <string name="unable_to_process_request">We were unable to process your request… please try again later</string>
     <string name="city_not_found">There\'s no city on our map with that Zip code (%s)</string>
+    <string name="location_saved_changed">Location %s !</string>
+    <string name="saved">saved</string>
+    <string name="removed">removed</string>
 </resources>

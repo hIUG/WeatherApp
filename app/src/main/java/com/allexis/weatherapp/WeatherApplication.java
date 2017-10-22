@@ -2,19 +2,25 @@ package com.allexis.weatherapp;
 
 import android.app.Application;
 
-import com.allexis.weatherapp.core.persist.SharedPrefs;
+import com.allexis.weatherapp.core.persist.CacheManager;
 
 /**
  * Created by allexis on 10/14/17.
- * TODO: 1) Saving locations and toggle buttons
- * TODO: 2) Saving of last zip code searched
- * TODO: 3) Saving and displaying list of saved locations
- * TODO: 4) Subscribe to some broadcast receiver
- * TODO: 5) Settings activity
- * TODO: 6) Implement AlarmManager or JobScheduler to update saved location's weather
- * TODO: 7) Notifications for special weather requests
- * TODO: 8) Swipe down to refresh
- * TODO: 9) Show saved locations on map
+ * TODO: Implement caching expiry date
+ * TODO: Hide current weather when scrolling down on home screen
+ * TODO: Saving of last zip code searched
+ * TODO: Saving and displaying list of saved locations (recyclerView)
+ * TODO: Handle screen rotation
+ * TODO: Subscribe to some broadcast receiver
+ * TODO: Settings activity
+ * TODO: Swipe left RV to remove saved location
+ * TODO: Implement AlarmManager or JobScheduler to update saved location's weather
+ * TODO: Notifications for special weather requests
+ * TODO: Swipe down to refresh
+ * TODO: Show saved locations on map
+ *
+ * DONE!!!
+ * TODO: Saving locations and toggle buttons
  *
  */
 
@@ -36,6 +42,6 @@ public class WeatherApplication extends Application {
         super.onCreate();
         instance = this;
         APIkey = getApplicationContext().getString(R.string.open_weather_map_api_key);
-        SharedPrefs.init(getApplicationContext());
+        CacheManager.init(getApplicationContext());
     }
 }

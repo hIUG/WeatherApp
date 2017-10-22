@@ -9,7 +9,7 @@ import android.util.Log;
 import com.allexis.weatherapp.WeatherApplication;
 import com.allexis.weatherapp.core.network.model.GsonObject;
 import com.allexis.weatherapp.core.network.service.common.model.NetworkRequest;
-import com.allexis.weatherapp.core.persist.SharedPrefs;
+import com.allexis.weatherapp.core.persist.CacheManager;
 import com.allexis.weatherapp.core.util.RequestUtil;
 
 import java.io.IOException;
@@ -59,42 +59,43 @@ public class NetworkService<T extends GsonObject> extends IntentService {
         T gsonObject;
         Response<T> response = null;
         String cachedResponse;
+        String localTag = TAG + "@" + Thread.currentThread().getId();
 
-        Log.d(TAG, "onHandleIntent: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        Log.d(localTag, "onHandleIntent: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         if (nextRequest != null) {
             call = nextRequest.getCall();
             callback = nextRequest.getCallBack();
 
-            Log.d(TAG, "onHandleIntent: processing request:\n" + RequestUtil.getCacheSaveKey(call));
+            Log.d(localTag, "onHandleIntent: processing request:\n" + RequestUtil.getCacheSaveKey(call));
 
             if (RequestUtil.shouldCacheResponse(call)) {
-                Log.d(TAG, "onHandleIntent: this response should be being cached... verifying if has been already");
-                cachedResponse = SharedPrefs.getPrefs().getString(RequestUtil.getCacheSaveKey(call), null);
+                Log.d(localTag, "onHandleIntent: this response should be being cached... verifying if has been already");
+                cachedResponse = CacheManager.getInstance().getString(RequestUtil.getCacheSaveKey(call), null);
                 if (cachedResponse != null) {
                     gsonObject = GsonObject.fromJsonString(cachedResponse, nextRequest.getResponseClass());
                     response = Response.success(gsonObject);
-                    Log.d(TAG, "onHandleIntent: response was cached... retrieved");
+                    Log.d(localTag, "onHandleIntent: response was cached... retrieved");
                 }
             }
 
             if (response == null) {
                 try {
                     response = call.execute();
-                    Log.d(TAG, "onHandleIntent: response was not cached or shouldn't be... has been executed");
+                    Log.d(localTag, "onHandleIntent: response was not cached or shouldn't be... has been executed");
                     if (response.isSuccessful() && RequestUtil.shouldCacheResponse(response)) {
-                        Log.d(TAG, "onHandleIntent: response executed should be cached... saving the result JSON body");
-                        SharedPrefs.getInstance().put(RequestUtil.getCacheSaveKey(response), response.body().toJsonString());
+                        Log.d(localTag, "onHandleIntent: response executed should be cached... saving the result JSON body");
+                        CacheManager.getInstance().put(RequestUtil.getCacheSaveKey(response), response.body().toJsonString());
                     }
                 } catch (IOException e) {
-                    Log.e(TAG, "onHandleIntent: Unexpected exception when trying to execute a call to retrieve it response calling callback.onFailure()", e);
+                    Log.e(localTag, "onHandleIntent: Unexpected exception when trying to execute a call to retrieve it response calling callback.onFailure()", e);
                     callback.onFailure(call, e);
                 }
             }
-            Log.d(TAG, "onHandleIntent: end of process... executing callback.onResponse()");
+            Log.d(localTag, "onHandleIntent: end of process... executing callback.onResponse()");
             callback.onResponse(call, response);
         } else {
-            Log.e(TAG, "onHandleIntent: Unexpected null request on the request queue");
+            Log.e(localTag, "onHandleIntent: Unexpected null request on the request queue");
         }
-        Log.d(TAG, "onHandleIntent: <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        Log.d(localTag, "onHandleIntent: <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 }

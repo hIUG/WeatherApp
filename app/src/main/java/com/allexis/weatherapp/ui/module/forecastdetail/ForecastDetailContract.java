@@ -18,6 +18,8 @@ public interface ForecastDetailContract {
         void updateDetailForecastTemperature(LineData lineData, IAxisValueFormatter formatter);
 
         void updateDetailForecastHumidity(LineData lineData, IAxisValueFormatter formatter);
+
+        void updateSavedIcon(boolean isSavedLocation);
     }
 
     interface Presenter extends BaseContract.BasePresenter {

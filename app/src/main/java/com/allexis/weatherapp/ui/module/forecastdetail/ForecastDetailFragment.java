@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.allexis.weatherapp.R;
 import com.allexis.weatherapp.core.network.service.weather.model.WeatherResponse;
+import com.allexis.weatherapp.core.persist.data.Temperature;
 import com.allexis.weatherapp.core.util.AnimationConstants;
 import com.allexis.weatherapp.ui.base.BaseFragment;
 import com.github.mikephil.charting.charts.LineChart;
@@ -21,8 +22,6 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
-
-import static com.allexis.weatherapp.core.util.TemperatureUtil.preferredTemp;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +44,9 @@ public class ForecastDetailFragment extends BaseFragment<ForecastDetailPresenter
     private LineChart forecastTemperatureLineChart;
     private LineChart forecastHumidityLineChart;
     private FloatingActionButton forecastSaveFab;
+
+    private int cityId;
+    private boolean isSavedLocation;
 
     public ForecastDetailFragment() {
     }
@@ -134,9 +136,9 @@ public class ForecastDetailFragment extends BaseFragment<ForecastDetailPresenter
             this.forecastDescriptionTv.setText(weather.getWeather().get(0).getDescription());
         }
         this.forecastLocationTv.setText(String.format(getString(R.string.location_txt), weather.getName(), weather.getSys().getCountry()));
-        this.forecastTempTv.setText(String.format(getString(R.string.current_temp_txt), weather.getMain().getTempStr(), preferredTemp));
-        this.forecastTempMinTv.setText(String.format(getString(R.string.min_temp_txt), weather.getMain().getTempMinStr(), preferredTemp));
-        this.forecastTempMaxTv.setText(String.format(getString(R.string.max_temp_txt), weather.getMain().getTempMaxStr(), preferredTemp));
+        this.forecastTempTv.setText(String.format(getString(R.string.current_temp_txt), weather.getMain().getTempStr(), Temperature.getPreferredTemp()));
+        this.forecastTempMinTv.setText(String.format(getString(R.string.min_temp_txt), weather.getMain().getTempMinStr(), Temperature.getPreferredTemp()));
+        this.forecastTempMaxTv.setText(String.format(getString(R.string.max_temp_txt), weather.getMain().getTempMaxStr(), Temperature.getPreferredTemp()));
         this.forecastSunriseTv.setText(String.format(getString(R.string.sunrise_at_txt), DateUtils.formatDateTime(getContainerActivity(),
                 weather.getSys().getSunrise() * DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_SHOW_TIME)));
         this.forecastSunsetTv.setText(String.format(getString(R.string.sunset_at_txt), DateUtils.formatDateTime(getContainerActivity(),
@@ -159,6 +161,15 @@ public class ForecastDetailFragment extends BaseFragment<ForecastDetailPresenter
         forecastHumidityLineChart.setData(lineData);
         forecastHumidityLineChart.getXAxis().setValueFormatter(formatter);
         forecastHumidityLineChart.animateX(AnimationConstants.LINE_CHART_X_ANIM_MS);
+    }
+
+    @Override
+    public void updateSavedIcon(boolean isSavedLocation) {
+        if (isSavedLocation) {
+            forecastSaveFab.setImageResource(R.drawable.ic_favorite_filled);
+        } else {
+            forecastSaveFab.setImageResource(R.drawable.ic_favorite);
+        }
     }
 
     @Override

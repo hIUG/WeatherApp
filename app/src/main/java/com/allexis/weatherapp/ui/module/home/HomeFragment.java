@@ -16,12 +16,12 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.allexis.weatherapp.R;
 import com.allexis.weatherapp.core.network.service.weather.model.WeatherResponse;
+import com.allexis.weatherapp.core.persist.data.Temperature;
 import com.allexis.weatherapp.ui.base.BaseFragment;
 import com.allexis.weatherapp.ui.module.forecastdetail.ForecastDetailFragment;
 import com.squareup.picasso.Picasso;
 
 import static android.view.View.VISIBLE;
-import static com.allexis.weatherapp.core.util.TemperatureUtil.preferredTemp;
 
 /**
  * Created by allexis on 10/12/17.
@@ -94,9 +94,9 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
             this.currentWeatherDescTv.setText(weather.getWeather().get(0).getDescription());
         }
         this.currentWeatherLocationTv.setText(String.format(getString(R.string.location_txt), weather.getName(), weather.getSys().getCountry()));
-        this.currentWeatherTempTv.setText(String.format(getString(R.string.current_temp_txt), weather.getMain().getTempStr(), preferredTemp));
-        this.currentWeatherTempMinTv.setText(String.format(getString(R.string.min_temp_txt), weather.getMain().getTempMinStr(), preferredTemp));
-        this.currentWeatherTempMaxTv.setText(String.format(getString(R.string.max_temp_txt), weather.getMain().getTempMaxStr(), preferredTemp));
+        this.currentWeatherTempTv.setText(String.format(getString(R.string.current_temp_txt), weather.getMain().getTempStr(), Temperature.getPreferredTemp()));
+        this.currentWeatherTempMinTv.setText(String.format(getString(R.string.min_temp_txt), weather.getMain().getTempMinStr(), Temperature.getPreferredTemp()));
+        this.currentWeatherTempMaxTv.setText(String.format(getString(R.string.max_temp_txt), weather.getMain().getTempMaxStr(), Temperature.getPreferredTemp()));
         this.currentWeatherContainerCl.setVisibility(VISIBLE);
 
         this.currentCityId = weather.getId();

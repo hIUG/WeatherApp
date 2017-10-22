@@ -1,7 +1,7 @@
 package com.allexis.weatherapp.core.network.service.weather.model
 
 import android.os.Parcelable
-import com.allexis.weatherapp.core.util.TemperatureUtil
+import com.allexis.weatherapp.core.persist.data.Temperature
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -31,21 +31,21 @@ import kotlinx.android.parcel.Parcelize
     private fun getTempMaxFahrenheit(): Double = ((tempMax - 273.15) * 9 / 5) + 32
     private fun getTempMaxCelsius(): Double = (tempMax - 273.15)
 
-    private fun getTemp(): Double = when (TemperatureUtil.preferredTemp) {
-        TemperatureUtil.TEMP_C -> getTempCelsius()
-        TemperatureUtil.TEMP_F -> getTempFahrenheit()
+    private fun getTemp(): Double = when (Temperature.getPreferredTemp()) {
+        Temperature.TEMP_C -> getTempCelsius()
+        Temperature.TEMP_F -> getTempFahrenheit()
         else -> getTempKelvin()
     }
 
-    private fun getTempMin(): Double = when (TemperatureUtil.preferredTemp) {
-        TemperatureUtil.TEMP_C -> getTempMinCelsius()
-        TemperatureUtil.TEMP_F -> getTempMinFahrenheit()
+    private fun getTempMin(): Double = when (Temperature.getPreferredTemp()) {
+        Temperature.TEMP_C -> getTempMinCelsius()
+        Temperature.TEMP_F -> getTempMinFahrenheit()
         else -> getTempMinKelvin()
     }
 
-    private fun getTempMax(): Double = when (TemperatureUtil.preferredTemp) {
-        TemperatureUtil.TEMP_C -> getTempMaxCelsius()
-        TemperatureUtil.TEMP_F -> getTempMaxFahrenheit()
+    private fun getTempMax(): Double = when (Temperature.getPreferredTemp()) {
+        Temperature.TEMP_C -> getTempMaxCelsius()
+        Temperature.TEMP_F -> getTempMaxFahrenheit()
         else -> getTempMaxKelvin()
     }
 
