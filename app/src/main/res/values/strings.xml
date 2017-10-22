@@ -1,19 +1,27 @@
 <resources>
     <string name="app_name">WeatherApp</string>
 
+    <string name="location_txt" formatted="false">%s, %s</string>
+    <string name="current_temp_txt" formatted="false">%s %s</string>
+    <string name="max_temp_txt" formatted="false">max: %s %s</string>
+    <string name="min_temp_txt" formatted="false">min: %s %s</string>
+    <string name="sunset_at_txt">Sunset: %s</string>
+    <string name="sunrise_at_txt">Sunrise: %s</string>
+    <string name="forecast_title_temperature">5 day / 3 hour forecast - Temperature (%s)</string>
+    <string name="forecast_title_humidity">5 day / 3 hour forecast - Humidity (%)</string>
+
     <string name="permission_rationale_location">Provide location permission to get the weather on your zone</string>
     <string name="open_app_preferences">App preferences</string>
     <string name="grant_permission">Grant permission</string>
-    <string name="network_issues_weather">We\'re having problems retrieving the current weather... do you have a proper network access?</string>
+    <string name="network_issues_weather">We\'re having problems retrieving the current weather… do you have a proper network access?</string>
     <string name="not_saved_locations">You don\'t have saved locations! Go ahead and save one!</string>
     <string name="dialog_search_zip_title">Search a city by zip code!</string>
-    <string name="dialog_search_zip_content">Please enter a valid zip code to search for a city\'s weather and forecat.</string>
+    <string name="dialog_search_zip_content">Please enter a valid zip code to search for a city\'s weather and forecast.</string>
     <string name="dialog_search_zip_hint">Enter a valid zip code</string>
     <string name="dialog_search_zip_default">77058</string>
     <string name="dialog_search_zip_accept">Search</string>
     <string name="dialog_search_zip_cancel">Cancel</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="unable_to_process_request">We were unable to process your request... please try agan later</string>
+    <string name="unable_to_process_request">We were unable to process your request… please try again later</string>
+    <string name="city_not_found">There\'s no city on our map with that Zip code (%s)</string>
 </resources>

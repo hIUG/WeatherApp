@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
 
         boolean performAnimation = false;
         if (savedInstanceState == null) {
-            goToNewFragment(HomeFragment.newInstance());
+            goToNewFragment(HomeFragment.newInstance(), false);
             if (getIntent() != null && getIntent().getExtras() != null) {
                 performAnimation = getIntent().getExtras().getBoolean(PERFORM_INITIAL_ANIMATION);
             }
@@ -103,10 +103,12 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
     }
 
     @Override
-    public <F extends BaseFragment> void goToNewFragment(F fragment) {
+    public <F extends BaseFragment> void goToNewFragment(F fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_content_layout, fragment, fragment.getFragmentTag());
-        transaction.addToBackStack(fragment.getFragmentTag());
+        if (addToBackStack) {
+            transaction.addToBackStack(fragment.getFragmentTag());
+        }
         transaction.commit();
     }
 

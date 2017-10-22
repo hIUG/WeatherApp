@@ -15,6 +15,8 @@ public interface BaseContract {
         void showLongToast(String message);
 
         Activity getContainerActivity();
+
+        void finish();
     }
 
     interface BasePresenter<V extends BaseView> {

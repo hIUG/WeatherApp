@@ -7,4 +7,8 @@
     <color name="colorBlueIconAlpha50">#AA157EFB</color>
     <color name="colorBackgroundLightGrey">#EEEEEE</color>
     <color name="colorGrayDivider">#66999999</color>
+    <color name="color_chart_line_temp">#f1be73</color>
+    <color name="color_chart_circle_temp">#cc7a00</color>
+    <color name="color_chart_line_humidity">#6eabf2</color>
+    <color name="color_chart_circle_humidity">#045dc7</color>
 </resources>

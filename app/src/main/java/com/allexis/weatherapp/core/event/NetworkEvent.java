@@ -6,20 +6,22 @@ package com.allexis.weatherapp.core.event;
 
 public abstract class NetworkEvent<T> {
 
-    protected boolean successful;
-    protected T responseObject;
+    private final int code;
+    private final boolean successful;
+    private final T responseObject;
 
-    public NetworkEvent(boolean successful) {
-        this.successful = successful;
-    }
-
-    public NetworkEvent(boolean successful, T responseObject) {
+    public NetworkEvent(boolean successful, int code, T responseObject) {
         this.responseObject = responseObject;
+        this.code = code;
         this.successful = successful && responseObject != null;
     }
 
     public T getResponseObject() {
         return responseObject;
+    }
+
+    public int getCode() {
+        return code;
     }
 
     public boolean isSuccessful() {

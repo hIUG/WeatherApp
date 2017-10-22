@@ -9,10 +9,14 @@ import com.allexis.weatherapp.core.event.NetworkEvent;
 public class WeatherEvent extends NetworkEvent<WeatherResponse> {
 
     public WeatherEvent(boolean successful) {
-        super(successful);
+        this(successful, 0, null);
     }
 
     public WeatherEvent(boolean successful, WeatherResponse responseObject) {
-        super(successful, responseObject);
+        this(successful, 0, responseObject);
+    }
+
+    public WeatherEvent(boolean successful, int code, WeatherResponse body) {
+        super(successful, code, body);
     }
 }

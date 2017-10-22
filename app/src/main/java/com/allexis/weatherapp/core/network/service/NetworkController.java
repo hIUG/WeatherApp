@@ -56,11 +56,12 @@ public abstract class NetworkController<R> implements Callback<R> {
 
     @Override
     public void onResponse(Call<R> call, Response<R> response) {
+        Log.d(TAG, "onResponse: ---------------------------------------------------------");
         String reqId = response.raw().request().header(RequestUtil.REQ_IDENTIFIER_HEADER);
         boolean successful = response.isSuccessful();
         boolean shouldCache = RequestUtil.shouldCacheResponse(reqId);
         if (successful && shouldCache) {
-
+            //Cache the response to later retrieve it cached instead of repeating the req
         }
         processResponse(response);
     }

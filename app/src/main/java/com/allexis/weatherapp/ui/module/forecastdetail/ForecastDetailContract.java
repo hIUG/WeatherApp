@@ -1,5 +1,6 @@
 package com.allexis.weatherapp.ui.module.forecastdetail;
 
+import com.allexis.weatherapp.core.lib.external.StringAxisValueFormatter;
 import com.allexis.weatherapp.core.network.service.weather.WeatherResponse;
 import com.allexis.weatherapp.ui.base.BaseContract;
 import com.github.mikephil.charting.data.LineData;
@@ -14,7 +15,9 @@ public interface ForecastDetailContract {
 
         void updateDetailWeather(WeatherResponse responseObject);
 
-        void updateDetailForecast(LineData lineData);
+        void updateDetailForecastTemperature(LineData lineData, StringAxisValueFormatter formatter);
+
+        void updateDetailForecastHumidity(LineData lineData, StringAxisValueFormatter formatter);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -26,5 +29,7 @@ public interface ForecastDetailContract {
         void getForecastByZip(int zipCode);
 
         void getForecastByCityId(int cityId);
+
+        void toggleSave();
     }
 }

@@ -2,6 +2,7 @@ package com.allexis.weatherapp.core.network.service.forecast
 
 import android.os.Parcelable
 import com.allexis.weatherapp.core.network.service.weather.*
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -26,10 +27,10 @@ import kotlinx.android.parcel.Parcelize
                            val country: String,
                            val population: Int) : Parcelable
 
-@Parcelize data class List(val dt: Int,
+@Parcelize data class List(val dt: Long,
                            val main: Main,
                            val weather: kotlin.collections.List<Weather>,
                            val clouds: Clouds,
                            val wind: Wind,
                            val sys: Sys,
-                           val dtTxt: String) : Parcelable
+                           @SerializedName("dt_txt") val dtTxt: String) : Parcelable

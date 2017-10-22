@@ -21,6 +21,7 @@ import com.allexis.weatherapp.ui.module.forecastdetail.ForecastDetailFragment;
 import com.squareup.picasso.Picasso;
 
 import static android.view.View.VISIBLE;
+import static com.allexis.weatherapp.core.util.TemperatureUtil.preferredTemp;
 
 /**
  * Created by allexis on 10/12/17.
@@ -92,10 +93,10 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
             Picasso.with(getContainerActivity()).load(weather.getWeather().get(0).getIconUrl()).into(this.currentWeatherIv);
             this.currentWeatherDescTv.setText(weather.getWeather().get(0).getDescription());
         }
-        this.currentWeatherLocationTv.setText(weather.getName() + ", " + weather.getSys().getCountry());
-        this.currentWeatherTempTv.setText(String.format("%s K", weather.getMain().getTempKelvin()));
-        this.currentWeatherTempMinTv.setText(String.format("min: %s K", weather.getMain().getTempMinKelvin()));
-        this.currentWeatherTempMaxTv.setText(String.format("max: %s K", weather.getMain().getTempMaxKelvin()));
+        this.currentWeatherLocationTv.setText(String.format(getString(R.string.location_txt), weather.getName(), weather.getSys().getCountry()));
+        this.currentWeatherTempTv.setText(String.format(getString(R.string.current_temp_txt), weather.getMain().getTempStr(), preferredTemp));
+        this.currentWeatherTempMinTv.setText(String.format(getString(R.string.min_temp_txt), weather.getMain().getTempMinStr(), preferredTemp));
+        this.currentWeatherTempMaxTv.setText(String.format(getString(R.string.max_temp_txt), weather.getMain().getTempMaxStr(), preferredTemp));
         this.currentWeatherContainerCl.setVisibility(VISIBLE);
 
         this.currentCityId = weather.getId();
@@ -135,7 +136,7 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-        if (which.equals(DialogAction.POSITIVE)) {
+        if (which.equals(DialogAction.POSITIVE) && dialog.getInputEditText() != null) {
             goToNewFragment(ForecastDetailFragment.newInstanceForZip(
                     Integer.parseInt(dialog.getInputEditText().getText().toString())));
         }
@@ -143,5 +144,10 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
 
     @Override
     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+    }
+
+    @Override
+    public void finish() {
+        getContainerActivity().onBackPressed();
     }
 }

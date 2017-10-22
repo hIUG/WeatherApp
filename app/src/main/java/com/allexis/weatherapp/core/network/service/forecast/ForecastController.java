@@ -33,7 +33,7 @@ public class ForecastController extends NetworkController<ForecastResponse> {
 
     @Override
     public void processResponse(Response<ForecastResponse> response) {
-        EventDispatcher.post(new ForecastEvent(response.isSuccessful(), response.body()));
+        EventDispatcher.post(new ForecastEvent(response.isSuccessful(), response.code(), response.body()));
     }
 
     @Override

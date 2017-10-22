@@ -70,7 +70,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     public abstract String getFragmentTag();
 
     protected <F extends BaseFragment> void goToNewFragment(F fragment) {
-        fragmentInteractionListener.goToNewFragment(fragment);
+        fragmentInteractionListener.goToNewFragment(fragment, true);
     }
 
     @Override
@@ -84,6 +84,6 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     }
 
     public interface FragmentInteractionListener {
-        <F extends BaseFragment> void goToNewFragment(F fragment);
+        <F extends BaseFragment> void goToNewFragment(F fragment, boolean addToBackStack);
     }
 }

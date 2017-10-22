@@ -31,6 +31,21 @@ public class HomePresenter implements HomeContract.Presenter {
         this.controller = new WeatherController();
     }
 
+    @Override
+    public void onStart() {
+        EventDispatcher.register(this);
+    }
+
+    @Override
+    public void onResume() {
+        verifyLocationPermission();
+    }
+
+    @Override
+    public void onStop() {
+        EventDispatcher.unregister(this);
+    }
+
     private void verifyLocationPermission() {
         RuntimePermissionUtil.requestLocationPermission(view.getContainerActivity());
     }
@@ -62,20 +77,5 @@ public class HomePresenter implements HomeContract.Presenter {
         } else {
             view.showLongToast(view.getContainerActivity().getString(R.string.network_issues_weather));
         }
-    }
-
-    @Override
-    public void onStart() {
-        EventDispatcher.register(this);
-    }
-
-    @Override
-    public void onResume() {
-        verifyLocationPermission();
-    }
-
-    @Override
-    public void onStop() {
-        EventDispatcher.unregister(this);
     }
 }

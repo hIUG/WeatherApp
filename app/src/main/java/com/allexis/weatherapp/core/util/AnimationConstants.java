@@ -14,7 +14,7 @@ public final class AnimationConstants {
     public static final int SPLASH_ANIM_REPEAT_COUNT = 1;
     public static final int HOME_ANIM_DURATION = 2000;
     public static final int HOME_ANIM_DELAY = 500;
-    public static final int LINE_CHART_X_ANIM_MS = 2000;
+    public static final int LINE_CHART_X_ANIM_MS = 3000;
 
     /**
      * No need of constructor on util classes

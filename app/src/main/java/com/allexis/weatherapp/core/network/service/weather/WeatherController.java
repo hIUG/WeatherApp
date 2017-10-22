@@ -33,7 +33,7 @@ public class WeatherController extends NetworkController<WeatherResponse> {
 
     @Override
     public void processResponse(Response<WeatherResponse> response) {
-        EventDispatcher.post(new WeatherEvent(response.isSuccessful(), response.body()));
+        EventDispatcher.post(new WeatherEvent(response.isSuccessful(), response.code(), response.body()));
     }
 
     @Override
