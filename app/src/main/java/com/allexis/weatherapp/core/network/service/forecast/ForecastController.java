@@ -2,9 +2,8 @@ package com.allexis.weatherapp.core.network.service.forecast;
 
 import com.allexis.weatherapp.WeatherApplication;
 import com.allexis.weatherapp.core.event.EventDispatcher;
-import com.allexis.weatherapp.core.network.service.NetworkController;
-
-import retrofit2.Response;
+import com.allexis.weatherapp.core.network.service.common.NetworkController;
+import com.allexis.weatherapp.core.network.service.forecast.model.ForecastResponse;
 
 /**
  * Created by allexis on 10/14/17.
@@ -12,7 +11,7 @@ import retrofit2.Response;
 
 public class ForecastController extends NetworkController<ForecastResponse> {
 
-    ForecastService service;
+    private ForecastService service;
 
     @Override
     protected void initClient() {
@@ -20,24 +19,29 @@ public class ForecastController extends NetworkController<ForecastResponse> {
     }
 
     public void getForecast(double latitude, double longitude) {
-        service.getForecast(WeatherApplication.getAPIkey(), latitude, longitude).enqueue(this);
+        execute(service.getForecast(WeatherApplication.getAPIkey(), latitude, longitude));
     }
 
     public void getForecast(int zipCode) {
-        service.getForecast(WeatherApplication.getAPIkey(), zipCode).enqueue(this);
+        execute(service.getForecast(WeatherApplication.getAPIkey(), zipCode));
     }
 
     public void getForecastByCityId(int cityId) {
-        service.getForecastByCityId(WeatherApplication.getAPIkey(), cityId).enqueue(this);
+        execute(service.getForecastByCityId(WeatherApplication.getAPIkey(), cityId));
     }
 
     @Override
-    public void processResponse(Response<ForecastResponse> response) {
-        EventDispatcher.post(new ForecastEvent(response.isSuccessful(), response.code(), response.body()));
+    public void processResponse(boolean successful, int responseCode, ForecastResponse response) {
+        EventDispatcher.post(new ForecastEvent(successful, responseCode, response));
     }
 
     @Override
     public void processFailure() {
         EventDispatcher.post(new ForecastEvent(false));
+    }
+
+    @Override
+    protected Class<ForecastResponse> getResponseClass() {
+        return ForecastResponse.class;
     }
 }

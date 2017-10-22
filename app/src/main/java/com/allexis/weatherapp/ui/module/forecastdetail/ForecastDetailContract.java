@@ -1,9 +1,9 @@
 package com.allexis.weatherapp.ui.module.forecastdetail;
 
-import com.allexis.weatherapp.core.lib.external.StringAxisValueFormatter;
-import com.allexis.weatherapp.core.network.service.weather.WeatherResponse;
+import com.allexis.weatherapp.core.network.service.weather.model.WeatherResponse;
 import com.allexis.weatherapp.ui.base.BaseContract;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 /**
  * Created by allexis on 10/17/17.
@@ -15,9 +15,9 @@ public interface ForecastDetailContract {
 
         void updateDetailWeather(WeatherResponse responseObject);
 
-        void updateDetailForecastTemperature(LineData lineData, StringAxisValueFormatter formatter);
+        void updateDetailForecastTemperature(LineData lineData, IAxisValueFormatter formatter);
 
-        void updateDetailForecastHumidity(LineData lineData, StringAxisValueFormatter formatter);
+        void updateDetailForecastHumidity(LineData lineData, IAxisValueFormatter formatter);
     }
 
     interface Presenter extends BaseContract.BasePresenter {

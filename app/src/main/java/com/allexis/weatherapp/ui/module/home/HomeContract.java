@@ -1,6 +1,6 @@
 package com.allexis.weatherapp.ui.module.home;
 
-import com.allexis.weatherapp.core.network.service.weather.WeatherResponse;
+import com.allexis.weatherapp.core.network.service.weather.model.WeatherResponse;
 import com.allexis.weatherapp.ui.base.BaseContract;
 
 /**

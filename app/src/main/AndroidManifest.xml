@@ -20,6 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.module.main.MainActivity" />
+
+        <service android:name=".core.network.service.common.NetworkService" />
     </application>
 
 </manifest>

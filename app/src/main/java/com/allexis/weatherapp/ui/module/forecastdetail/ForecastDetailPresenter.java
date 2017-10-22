@@ -5,25 +5,25 @@ import android.text.format.DateUtils;
 
 import com.allexis.weatherapp.R;
 import com.allexis.weatherapp.core.event.EventDispatcher;
-import com.allexis.weatherapp.core.lib.external.StringAxisValueFormatter;
 import com.allexis.weatherapp.core.network.service.forecast.ForecastController;
 import com.allexis.weatherapp.core.network.service.forecast.ForecastEvent;
+import com.allexis.weatherapp.core.network.service.forecast.model.ForecastListElement;
 import com.allexis.weatherapp.core.network.service.weather.WeatherController;
 import com.allexis.weatherapp.core.network.service.weather.WeatherEvent;
 import com.allexis.weatherapp.core.util.TemperatureUtil;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by allexis on 10/17/17.
@@ -84,7 +84,7 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
         view.showShortToast("Toggle");
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWeatherEvent(WeatherEvent event) {
         if (event.isSuccessful()) {
             view.updateDetailWeather(event.getResponseObject());
@@ -92,13 +92,13 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
         //Error cases already processed at onForecastEvent
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onForecastEvent(ForecastEvent event) {
         if (event.isSuccessful()) {
-            com.allexis.weatherapp.core.network.service.forecast.List forecastItem;
-            Map<Integer, String> values = new TreeMap<>();
+            ForecastListElement forecastItem;
             List<Entry> temperatureAxisY = new ArrayList<>();
             List<Entry> humidityAxisY = new ArrayList<>();
+            List<String> labelAxisX = new ArrayList<>();
             Calendar calendar = Calendar.getInstance();
             String day;
 
@@ -106,11 +106,9 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
                 forecastItem = event.getResponseObject().getList().get(i);
                 calendar.setTimeInMillis(forecastItem.getDt() * DateUtils.SECOND_IN_MILLIS);
                 day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
-                if (values.containsValue(day)) {
-                    day = "";
-                }
-                values.put(i, day);
-                temperatureAxisY.add(new Entry(i, (float) forecastItem.getMain().getTemp()));
+
+                labelAxisX.add(day);
+                temperatureAxisY.add(new Entry(i, Float.parseFloat(forecastItem.getMain().getTempStr())));
                 humidityAxisY.add(new Entry(i, (float) forecastItem.getMain().getHumidity()));
             }
 
@@ -118,12 +116,13 @@ public class ForecastDetailPresenter implements ForecastDetailContract.Presenter
                     String.format(view.getContainerActivity().getString(R.string.forecast_title_temperature), TemperatureUtil.preferredTemp));
             temperatureDataSet.setColor(ResourcesCompat.getColor(view.getContainerActivity().getResources(), R.color.color_chart_line_temp, null));
             temperatureDataSet.setCircleColor(ResourcesCompat.getColor(view.getContainerActivity().getResources(), R.color.color_chart_circle_temp, null));
-            view.updateDetailForecastTemperature(new LineData(temperatureDataSet), new StringAxisValueFormatter(values));
+            view.updateDetailForecastTemperature(new LineData(temperatureDataSet), new IndexAxisValueFormatter(labelAxisX));
 
-            LineDataSet humidityDataSet = new LineDataSet(humidityAxisY, view.getContainerActivity().getString(R.string.forecast_title_humidity));
+            LineDataSet humidityDataSet = new LineDataSet(humidityAxisY,
+                    view.getContainerActivity().getString(R.string.forecast_title_humidity));
             humidityDataSet.setColor(ResourcesCompat.getColor(view.getContainerActivity().getResources(), R.color.color_chart_line_humidity, null));
             humidityDataSet.setCircleColor(ResourcesCompat.getColor(view.getContainerActivity().getResources(), R.color.color_chart_circle_humidity, null));
-            view.updateDetailForecastHumidity(new LineData(humidityDataSet), new StringAxisValueFormatter(values));
+            view.updateDetailForecastHumidity(new LineData(humidityDataSet), new IndexAxisValueFormatter(labelAxisX));
 
             return;
         } else if (event.getCode() == HttpURLConnection.HTTP_NOT_FOUND) {

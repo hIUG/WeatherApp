@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.allexis.weatherapp.R;
-import com.allexis.weatherapp.core.network.service.weather.WeatherResponse;
+import com.allexis.weatherapp.core.network.service.weather.model.WeatherResponse;
 import com.allexis.weatherapp.ui.base.BaseFragment;
 import com.allexis.weatherapp.ui.module.forecastdetail.ForecastDetailFragment;
 import com.squareup.picasso.Picasso;

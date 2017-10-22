@@ -12,12 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.allexis.weatherapp.R;
-import com.allexis.weatherapp.core.lib.external.StringAxisValueFormatter;
-import com.allexis.weatherapp.core.network.service.weather.WeatherResponse;
+import com.allexis.weatherapp.core.network.service.weather.model.WeatherResponse;
 import com.allexis.weatherapp.core.util.AnimationConstants;
 import com.allexis.weatherapp.ui.base.BaseFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
@@ -148,14 +148,14 @@ public class ForecastDetailFragment extends BaseFragment<ForecastDetailPresenter
     }
 
     @Override
-    public void updateDetailForecastTemperature(LineData lineData, StringAxisValueFormatter formatter) {
+    public void updateDetailForecastTemperature(LineData lineData, IAxisValueFormatter formatter) {
         forecastTemperatureLineChart.setData(lineData);
         forecastTemperatureLineChart.getXAxis().setValueFormatter(formatter);
         forecastTemperatureLineChart.animateX(AnimationConstants.LINE_CHART_X_ANIM_MS);
     }
 
     @Override
-    public void updateDetailForecastHumidity(LineData lineData, StringAxisValueFormatter formatter) {
+    public void updateDetailForecastHumidity(LineData lineData, IAxisValueFormatter formatter) {
         forecastHumidityLineChart.setData(lineData);
         forecastHumidityLineChart.getXAxis().setValueFormatter(formatter);
         forecastHumidityLineChart.animateX(AnimationConstants.LINE_CHART_X_ANIM_MS);

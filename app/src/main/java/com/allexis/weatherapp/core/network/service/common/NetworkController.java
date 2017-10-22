@@ -1,8 +1,7 @@
-package com.allexis.weatherapp.core.network.service;
+package com.allexis.weatherapp.core.network.service.common;
 
-import android.util.Log;
-
-import com.allexis.weatherapp.core.util.RequestUtil;
+import com.allexis.weatherapp.core.network.model.GsonObject;
+import com.allexis.weatherapp.core.network.service.common.model.NetworkRequest;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -21,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Custom controllers should override getURL() in case they want to use a custom URL
  */
 
-public abstract class NetworkController<R> implements Callback<R> {
+public abstract class NetworkController<T extends GsonObject> implements Callback<T> {
 
     protected static final String PROTOCOL_HTTPS = "http://";
     protected static final String DOMAIN = "api.openweathermap.org/";
@@ -50,31 +49,29 @@ public abstract class NetworkController<R> implements Callback<R> {
         initClient();
     }
 
-    protected <T> T create(final Class<T> clientClass) {
+    protected <R> R create(final Class<R> clientClass) {
         return retrofit.create(clientClass);
     }
 
-    @Override
-    public void onResponse(Call<R> call, Response<R> response) {
-        Log.d(TAG, "onResponse: ---------------------------------------------------------");
-        String reqId = response.raw().request().header(RequestUtil.REQ_IDENTIFIER_HEADER);
-        boolean successful = response.isSuccessful();
-        boolean shouldCache = RequestUtil.shouldCacheResponse(reqId);
-        if (successful && shouldCache) {
-            //Cache the response to later retrieve it cached instead of repeating the req
-        }
-        processResponse(response);
+    protected void execute(Call<T> call) {
+        NetworkService.processRequest(new NetworkRequest<>(call, this, getResponseClass()));
     }
 
     @Override
-    public void onFailure(Call<R> call, Throwable t) {
-        Log.d(TAG, "onFailure: Unexpected failure while requesting " + getClass().getCanonicalName(), t);
+    public void onResponse(Call<T> call, Response<T> response) {
+        processResponse(response.isSuccessful(), response.code(), response.body());
+    }
+
+    @Override
+    public void onFailure(Call<T> call, Throwable t) {
         processFailure();
     }
 
-    protected abstract void processResponse(Response<R> response);
+    protected abstract void processResponse(boolean successful, int responseCode, T response);
 
     protected abstract void processFailure();
 
     protected abstract void initClient();
+
+    protected abstract Class<T> getResponseClass();
 }

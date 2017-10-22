@@ -1,7 +1,13 @@
 package com.allexis.weatherapp.core.util;
 
+import android.support.annotation.NonNull;
+
 import java.util.Map;
 import java.util.TreeMap;
+
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by allexis on 10/17/17.
@@ -38,8 +44,29 @@ public final class RequestUtil {
     private RequestUtil() {
     }
 
-    public static boolean shouldCacheResponse(String reqId) {
+    public static boolean shouldCacheResponse(@NonNull String reqId) {
         Boolean cacheResponseForReqId = req_cache_map_options.get(reqId);
         return cacheResponseForReqId != null && cacheResponseForReqId;
+    }
+
+    public static boolean shouldCacheResponse(@NonNull Request request) {
+        String reqId = request.header(RequestUtil.REQ_IDENTIFIER_HEADER);
+        return shouldCacheResponse(reqId);
+    }
+
+    public static boolean shouldCacheResponse(@NonNull Call call) {
+        return shouldCacheResponse(call.request());
+    }
+
+    public static boolean shouldCacheResponse(@NonNull Response response) {
+        return shouldCacheResponse(response.raw().request());
+    }
+
+    public static String getCacheSaveKey(Call call) {
+        return call.request().url().toString();
+    }
+
+    public static String getCacheSaveKey(Response response) {
+        return response.raw().request().url().toString();
     }
 }

@@ -2,6 +2,8 @@ package com.allexis.weatherapp.core.network.service.weather;
 
 import android.support.annotation.NonNull;
 
+import com.allexis.weatherapp.core.network.service.weather.model.WeatherResponse;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;

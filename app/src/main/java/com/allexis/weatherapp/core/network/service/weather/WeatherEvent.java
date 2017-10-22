@@ -1,6 +1,7 @@
 package com.allexis.weatherapp.core.network.service.weather;
 
 import com.allexis.weatherapp.core.event.NetworkEvent;
+import com.allexis.weatherapp.core.network.service.weather.model.WeatherResponse;
 
 /**
  * Created by allexis on 10/14/17.

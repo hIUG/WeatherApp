@@ -14,6 +14,7 @@ import com.allexis.weatherapp.core.network.service.weather.WeatherEvent;
 import com.allexis.weatherapp.core.util.RuntimePermissionUtil;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static org.greenrobot.eventbus.EventBus.TAG;
 
@@ -50,7 +51,7 @@ public class HomePresenter implements HomeContract.Presenter {
         RuntimePermissionUtil.requestLocationPermission(view.getContainerActivity());
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPermissionGrantedEvent(PermissionGrantedEvent event) {
         if (Manifest.permission.ACCESS_FINE_LOCATION.equals(event.getPermission())) {
             try {
@@ -68,7 +69,7 @@ public class HomePresenter implements HomeContract.Presenter {
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWeatherEvent(WeatherEvent event) {
         if (event.isSuccessful()) {
             view.updateCurrentWeather(event.getResponseObject());
