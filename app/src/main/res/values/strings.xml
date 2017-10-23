@@ -27,4 +27,26 @@
     <string name="location_saved_changed">Location %s !</string>
     <string name="saved">saved</string>
     <string name="removed">removed</string>
+    <string name="error_unable_to_retrieve_saved_locations_weather">Sorry, we couldn\'t retrieve the list of saved locations</string>
+    <string name="your_current_location">Hi %s! your current location:</string>
+
+    <!--Preferences-->
+    <string name="key_username">key_username</string>
+    <string name="key_preferred_unit_system">key_preferred_unit_system</string>
+    <string name="key_display_notifications">key_display_notifications</string>
+    <string name="key_saved_locations">key_saved_locations</string>
+    <string name="key_last_searched_zip_code">key_last_searched_zip_code</string>
+
+    <string name="valid_unit_systems_default">°F</string>
+    <string name="valid_unit_systems_k">K</string>
+    <string name="valid_unit_systems_f">°F</string>
+    <string name="valid_unit_systems_c">°C</string>
+    <string name="broadcast_received_power_disconnected">My battery is slowly dying now... :(</string>
+    <string name="broadcast_received_power_connected">Thank you! I needed that energy ;)</string>
+    <string name="broadcast_received_reboot">Your phone has rebooted... Retrieving weather status...</string>
+    <string-array name="valid_unit_systems_keys">
+        <item>K</item>
+        <item>°F</item>
+        <item>°C</item>
+    </string-array>
 </resources>

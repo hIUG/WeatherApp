@@ -2,12 +2,17 @@ package com.allexis.weatherapp.core.util;
 
 import android.support.annotation.NonNull;
 
+import com.allexis.weatherapp.core.persist.CacheManager;
+
+import java.util.Calendar;
 import java.util.Map;
 import java.util.TreeMap;
 
 import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.allexis.weatherapp.core.persist.CacheManager.CACHE_EXPIRE_TIME_MS;
 
 /**
  * Created by allexis on 10/17/17.
@@ -22,9 +27,12 @@ public final class RequestUtil {
     public static final String REQ_WEATHER_BY_LAT_LON = "REQ_WEATHER_BY_LAT_LON";
     public static final String REQ_WEATHER_BY_ZIP = "REQ_WEATHER_BY_ZIP";
     public static final String REQ_WEATHER_BY_CITY_ID = "REQ_WEATHER_BY_CITY_ID";
+    public static final String REQ_WEATHER_BY_CITY_NAME = "REQ_WEATHER_BY_CITY_NAME";
     public static final String REQ_FORECAST_BY_LAT_LON = "REQ_FORECAST_BY_LAT_LON";
     public static final String REQ_FORECAST_BY_ZIP = "REQ_FORECAST_BY_ZIP";
     public static final String REQ_FORECAST_BY_CITY_ID = "REQ_FORECAST_BY_CITY_ID";
+    public static final String REQ_FORECAST_BY_CITY_NAME = "REQ_FORECAST_BY_CITY_NAME";
+    public static final String REQ_GROUP_BY_CITIES_ID = "REQ_GROUP_BY_CITIES_ID";
 
     public static final Map<String, Boolean> req_cache_map_options;
 
@@ -33,9 +41,12 @@ public final class RequestUtil {
         req_cache_map_options.put(REQ_WEATHER_BY_LAT_LON, true);
         req_cache_map_options.put(REQ_WEATHER_BY_ZIP, true);
         req_cache_map_options.put(REQ_WEATHER_BY_CITY_ID, true);
+        req_cache_map_options.put(REQ_WEATHER_BY_CITY_NAME, true);
         req_cache_map_options.put(REQ_FORECAST_BY_LAT_LON, true);
         req_cache_map_options.put(REQ_FORECAST_BY_ZIP, true);
         req_cache_map_options.put(REQ_FORECAST_BY_CITY_ID, true);
+        req_cache_map_options.put(REQ_FORECAST_BY_CITY_NAME, true);
+        req_cache_map_options.put(REQ_GROUP_BY_CITIES_ID, true);
     }
 
     /**
@@ -62,11 +73,24 @@ public final class RequestUtil {
         return shouldCacheResponse(response.raw().request());
     }
 
-    public static String getCacheSaveKey(Call call) {
+    public static String getCacheSaveKey(@NonNull Call call) {
         return call.request().url().toString();
     }
 
-    public static String getCacheSaveKey(Response response) {
+    public static String getCacheSaveKey(@NonNull Response response) {
         return response.raw().request().url().toString();
+    }
+
+    public static String getExpireTimeCacheKey(@NonNull Call call) {
+        return new StringBuilder(getCacheSaveKey(call) + CacheManager.CACHE_EXPIRE_TIME_KEY_ID).toString();
+    }
+
+    public static String getExpireTimeCacheKey(@NonNull Response response) {
+        return new StringBuilder(getCacheSaveKey(response) + CacheManager.CACHE_EXPIRE_TIME_KEY_ID).toString();
+    }
+
+    public static boolean isCachedExpired(long cachedAt) {
+        long timeDiff = Calendar.getInstance().getTimeInMillis() - cachedAt;
+        return timeDiff >= CACHE_EXPIRE_TIME_MS;
     }
 }

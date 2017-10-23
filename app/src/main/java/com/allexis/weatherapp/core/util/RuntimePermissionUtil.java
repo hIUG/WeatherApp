@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.allexis.weatherapp.R;
 import com.allexis.weatherapp.core.event.EventDispatcher;
-import com.allexis.weatherapp.core.event.PermissionGrantedEvent;
+import com.allexis.weatherapp.core.event.common.PermissionGrantedEvent;
 
 /**
  * Created by allexis on 10/14/17.

@@ -2,8 +2,11 @@ package com.allexis.weatherapp.core.persist;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
 
-import com.allexis.weatherapp.core.persist.data.Temperature;
+import com.allexis.weatherapp.R;
+import com.allexis.weatherapp.WeatherApplication;
 
 /**
  * Created by allexis on 10/19/17.
@@ -20,19 +23,30 @@ import com.allexis.weatherapp.core.persist.data.Temperature;
 
 public class CacheManager {
 
-    private static final String KEY_PREFERRED_TEMP = "KEY_SAVED_LOCATIONS";
-    private static final String KEY_SAVED_LOCATIONS = "KEY_SAVED_LOCATIONS";
+    //An identifier to save and retrieve the last requested and cached time for a response... to validate it's expiration time
+    public static final String CACHE_EXPIRE_TIME_KEY_ID = "@";
+    public static final long CACHE_EXPIRE_TIME_MS = DateUtils.MINUTE_IN_MILLIS * 1;
+
+    public static String KEY_USERNAME;
+    public static String KEY_PREFERRED_TEMP;
+    public static String KEY_SAVED_LOCATIONS;
+    public static String KEY_LAST_SEARCHED_ZIP_CODE;
 
     private static CacheManager instance;
     private SharedPreferences sharedPrefs;
 
     private CacheManager(final Context context) {
-        sharedPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public static void init(final Context context) {
         if (instance == null) {
             instance = new CacheManager(context);
+
+            KEY_USERNAME = context.getString(R.string.key_username);
+            KEY_PREFERRED_TEMP = context.getString(R.string.key_preferred_unit_system);
+            KEY_SAVED_LOCATIONS = context.getString(R.string.key_saved_locations);
+            KEY_LAST_SEARCHED_ZIP_CODE = context.getString(R.string.key_last_searched_zip_code);
         }
     }
 
@@ -84,8 +98,12 @@ public class CacheManager {
         sharedPrefs.edit().remove(key).apply();
     }
 
+    public String getUsername() {
+        return getString(KEY_USERNAME, "");
+    }
+
     public String getPreferredTemp() {
-        return sharedPrefs.getString(KEY_PREFERRED_TEMP, Temperature.TEMP_F);
+        return getString(KEY_PREFERRED_TEMP, WeatherApplication.getInstance().getString(R.string.valid_unit_systems_f));
     }
 
     public void setPreferredTemp(String preferredTemp) {
@@ -93,10 +111,19 @@ public class CacheManager {
     }
 
     public String getSavedLocations() {
-        return sharedPrefs.getString(KEY_SAVED_LOCATIONS, "");
+        return getString(KEY_SAVED_LOCATIONS, "");
     }
 
     public void setSavedLocations(String savedLocations) {
         put(KEY_SAVED_LOCATIONS, savedLocations);
+    }
+
+    public String getLastSearchedZipCode() {
+        return getString(KEY_LAST_SEARCHED_ZIP_CODE, WeatherApplication.getInstance()
+                .getApplicationContext().getString(R.string.dialog_search_zip_default));
+    }
+
+    public void setLastSearchedZipCode(String zipCode) {
+        put(KEY_LAST_SEARCHED_ZIP_CODE, zipCode);
     }
 }

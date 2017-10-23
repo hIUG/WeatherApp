@@ -22,12 +22,16 @@ public class WeatherController extends NetworkController<WeatherResponse> {
         execute(service.getWeather(WeatherApplication.getAPIkey(), latitude, longitude));
     }
 
-    public void getWeather(int zipCode) {
+    public void getWeather(String zipCode) {
         execute(service.getWeather(WeatherApplication.getAPIkey(), zipCode));
     }
 
     public void getWeatherByCityId(int cityId) {
         execute(service.getWeatherByCityId(WeatherApplication.getAPIkey(), cityId));
+    }
+
+    public void getWeatherByCityName(String cityName) {
+        execute(service.getWeatherByCityName(WeatherApplication.getAPIkey(), cityName));
     }
 
     @Override

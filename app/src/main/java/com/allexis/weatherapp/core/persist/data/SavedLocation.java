@@ -38,7 +38,7 @@ public final class SavedLocation {
     }
 
     public static void removeSavedLocation(int cityId) {
-        SAVED_LOCATIONS.remove(cityId);
+        SAVED_LOCATIONS.remove((Integer) cityId);
         CacheManager.getInstance().setSavedLocations(TextUtils.join(TextUtil.SEPARATOR_COMMA, SAVED_LOCATIONS.toArray()));
     }
 

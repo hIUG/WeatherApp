@@ -6,13 +6,7 @@ import com.allexis.weatherapp.core.persist.CacheManager;
 
 /**
  * Created by allexis on 10/14/17.
- * TODO: Implement caching expiry date
- * TODO: Hide current weather when scrolling down on home screen
- * TODO: Saving of last zip code searched
- * TODO: Saving and displaying list of saved locations (recyclerView)
- * TODO: Handle screen rotation
- * TODO: Subscribe to some broadcast receiver
- * TODO: Settings activity
+ * TODO: Handle screen rotation to support landscape... also tablets
  * TODO: Swipe left RV to remove saved location
  * TODO: Implement AlarmManager or JobScheduler to update saved location's weather
  * TODO: Notifications for special weather requests
@@ -20,7 +14,14 @@ import com.allexis.weatherapp.core.persist.CacheManager;
  * TODO: Show saved locations on map
  *
  * DONE!!!
+ * TODO: Implement caching expiry date
+ * TODO: Hide current weather when scrolling down on home screen (animation)
  * TODO: Saving locations and toggle buttons
+ * TODO: Saving and displaying list of saved locations (recyclerView)
+ * TODO: Settings activity
+ * TODO: Saving of last zip code searched
+ * TODO: Change zip code search impl to String instead of Int
+ * TODO: Subscribe to some broadcast receiver
  *
  */
 

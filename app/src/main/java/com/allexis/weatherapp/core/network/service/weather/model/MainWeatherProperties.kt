@@ -1,7 +1,9 @@
 package com.allexis.weatherapp.core.network.service.weather.model
 
 import android.os.Parcelable
-import com.allexis.weatherapp.core.persist.data.Temperature
+import com.allexis.weatherapp.R
+import com.allexis.weatherapp.WeatherApplication
+import com.allexis.weatherapp.core.persist.CacheManager
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -31,21 +33,22 @@ import kotlinx.android.parcel.Parcelize
     private fun getTempMaxFahrenheit(): Double = ((tempMax - 273.15) * 9 / 5) + 32
     private fun getTempMaxCelsius(): Double = (tempMax - 273.15)
 
-    private fun getTemp(): Double = when (Temperature.getPreferredTemp()) {
-        Temperature.TEMP_C -> getTempCelsius()
-        Temperature.TEMP_F -> getTempFahrenheit()
+    //TODO: This should be done on a separate Util class and accessing resources every time should be avoided
+    private fun getTemp(): Double = when (CacheManager.getInstance().preferredTemp) {
+        WeatherApplication.getInstance().getString(R.string.valid_unit_systems_c) -> getTempCelsius()
+        WeatherApplication.getInstance().getString(R.string.valid_unit_systems_f) -> getTempFahrenheit()
         else -> getTempKelvin()
     }
 
-    private fun getTempMin(): Double = when (Temperature.getPreferredTemp()) {
-        Temperature.TEMP_C -> getTempMinCelsius()
-        Temperature.TEMP_F -> getTempMinFahrenheit()
+    private fun getTempMin(): Double = when (CacheManager.getInstance().preferredTemp) {
+        WeatherApplication.getInstance().getString(R.string.valid_unit_systems_c) -> getTempMinCelsius()
+        WeatherApplication.getInstance().getString(R.string.valid_unit_systems_f) -> getTempMinFahrenheit()
         else -> getTempMinKelvin()
     }
 
-    private fun getTempMax(): Double = when (Temperature.getPreferredTemp()) {
-        Temperature.TEMP_C -> getTempMaxCelsius()
-        Temperature.TEMP_F -> getTempMaxFahrenheit()
+    private fun getTempMax(): Double = when (CacheManager.getInstance().preferredTemp) {
+        WeatherApplication.getInstance().getString(R.string.valid_unit_systems_c) -> getTempMaxCelsius()
+        WeatherApplication.getInstance().getString(R.string.valid_unit_systems_f) -> getTempMaxFahrenheit()
         else -> getTempMaxKelvin()
     }
 

@@ -1,10 +1,10 @@
 package com.allexis.weatherapp.ui.base;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,10 +14,11 @@ import android.widget.Toast;
  * common functionality among all fragments in the app.
  */
 
-public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends Fragment implements BaseContract.BaseView, View.OnClickListener {
+public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends Fragment implements
+        BaseContract.BaseView, View.OnClickListener, TaggableBaseFragment {
 
     protected T presenter;
-    private FragmentInteractionListener fragmentInteractionListener;
+    private BaseFragmentInteractionListener baseFragmentInteractionListener;
 
     @Override
     public void onResume() {
@@ -46,18 +47,18 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentInteractionListener) {
-            fragmentInteractionListener = (FragmentInteractionListener) context;
+        if (context instanceof BaseFragment.BaseFragmentInteractionListener) {
+            baseFragmentInteractionListener = (BaseFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement "
-                    + FragmentInteractionListener.class.getCanonicalName());
+                    + BaseFragmentInteractionListener.class.getCanonicalName());
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        fragmentInteractionListener = null;
+        baseFragmentInteractionListener = null;
     }
 
     @Override
@@ -67,10 +68,8 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
 
     protected abstract void init();
 
-    public abstract String getFragmentTag();
-
-    protected <F extends BaseFragment> void goToNewFragment(F fragment) {
-        fragmentInteractionListener.goToNewFragment(fragment, true);
+    protected void goToNewFragment(Fragment fragment, String fragmentTag) {
+        baseFragmentInteractionListener.goToNewFragment(fragment, fragmentTag, true);
     }
 
     @Override
@@ -83,7 +82,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    public interface FragmentInteractionListener {
-        <F extends BaseFragment> void goToNewFragment(F fragment, boolean addToBackStack);
+    public interface BaseFragmentInteractionListener {
+        void goToNewFragment(Fragment fragment, String fragmentTag, boolean addToBackStack);
     }
 }

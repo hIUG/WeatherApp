@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.allexis.weatherapp.WeatherApplication;
@@ -13,6 +14,7 @@ import com.allexis.weatherapp.core.persist.CacheManager;
 import com.allexis.weatherapp.core.util.RequestUtil;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import retrofit2.Call;
@@ -59,9 +61,11 @@ public class NetworkService<T extends GsonObject> extends IntentService {
         T gsonObject;
         Response<T> response = null;
         String cachedResponse;
+        long reqCacheTime = Calendar.getInstance().getTimeInMillis();
         String localTag = TAG + "@" + Thread.currentThread().getId();
 
-        Log.d(localTag, "onHandleIntent: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        Log.d(localTag, "onHandleIntent: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        Log.d(TAG, "onHandleIntent: current time: " + reqCacheTime);
         if (nextRequest != null) {
             call = nextRequest.getCall();
             callback = nextRequest.getCallBack();
@@ -72,9 +76,15 @@ public class NetworkService<T extends GsonObject> extends IntentService {
                 Log.d(localTag, "onHandleIntent: this response should be being cached... verifying if has been already");
                 cachedResponse = CacheManager.getInstance().getString(RequestUtil.getCacheSaveKey(call), null);
                 if (cachedResponse != null) {
-                    gsonObject = GsonObject.fromJsonString(cachedResponse, nextRequest.getResponseClass());
-                    response = Response.success(gsonObject);
-                    Log.d(localTag, "onHandleIntent: response was cached... retrieved");
+                    reqCacheTime = CacheManager.getInstance().getLong(RequestUtil.getExpireTimeCacheKey(call), reqCacheTime);
+                    Log.d(TAG, "onHandleIntent: the request was cached @" + reqCacheTime + " (" + (Calendar.getInstance().getTimeInMillis() - reqCacheTime) / DateUtils.SECOND_IN_MILLIS + ")");
+                    if (!RequestUtil.isCachedExpired(reqCacheTime)) {
+                        gsonObject = GsonObject.fromJsonString(cachedResponse, nextRequest.getResponseClass());
+                        response = Response.success(gsonObject);
+                        Log.d(localTag, "onHandleIntent: response was cached... retrieved");
+                    } else {
+                        Log.d(localTag, "onHandleIntent: response was cached BUT was expired...");
+                    }
                 }
             }
 
@@ -83,8 +93,10 @@ public class NetworkService<T extends GsonObject> extends IntentService {
                     response = call.execute();
                     Log.d(localTag, "onHandleIntent: response was not cached or shouldn't be... has been executed");
                     if (response.isSuccessful() && RequestUtil.shouldCacheResponse(response)) {
-                        Log.d(localTag, "onHandleIntent: response executed should be cached... saving the result JSON body");
+                        reqCacheTime = Calendar.getInstance().getTimeInMillis();
+                        Log.d(localTag, "onHandleIntent: response executed should be cached... saving the result JSON body @" + reqCacheTime);
                         CacheManager.getInstance().put(RequestUtil.getCacheSaveKey(response), response.body().toJsonString());
+                        CacheManager.getInstance().put(RequestUtil.getExpireTimeCacheKey(response), reqCacheTime);
                     }
                 } catch (IOException e) {
                     Log.e(localTag, "onHandleIntent: Unexpected exception when trying to execute a call to retrieve it response calling callback.onFailure()", e);

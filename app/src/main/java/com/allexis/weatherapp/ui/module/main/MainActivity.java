@@ -3,10 +3,11 @@ package com.allexis.weatherapp.ui.module.main;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -25,7 +26,7 @@ import static com.allexis.weatherapp.core.util.AnimationConstants.HOME_ANIM_DURA
  * Created by allexis on 10/12/17.
  */
 
-public class MainActivity extends AppCompatActivity implements Animator.AnimatorListener, BaseFragment.FragmentInteractionListener {
+public class MainActivity extends Activity implements Animator.AnimatorListener, BaseFragment.BaseFragmentInteractionListener {
 
     public static final String PERFORM_INITIAL_ANIMATION = "perform_initial_animation";
 
@@ -41,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
 
         boolean performAnimation = false;
         if (savedInstanceState == null) {
-            goToNewFragment(HomeFragment.newInstance(), false);
+            HomeFragment fragment = HomeFragment.newInstance();
+            goToNewFragment(fragment, fragment.getFragmentTag(), false);
             if (getIntent() != null && getIntent().getExtras() != null) {
                 performAnimation = getIntent().getExtras().getBoolean(PERFORM_INITIAL_ANIMATION);
             }
@@ -103,11 +105,11 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
     }
 
     @Override
-    public <F extends BaseFragment> void goToNewFragment(F fragment, boolean addToBackStack) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_content_layout, fragment, fragment.getFragmentTag());
+    public void goToNewFragment(Fragment fragment, String fragmentTag, boolean addToBackStack) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_content_layout, fragment, fragmentTag);
         if (addToBackStack) {
-            transaction.addToBackStack(fragment.getFragmentTag());
+            transaction.addToBackStack(fragmentTag);
         }
         transaction.commit();
     }

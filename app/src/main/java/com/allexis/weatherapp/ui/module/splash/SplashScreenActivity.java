@@ -3,10 +3,10 @@ package com.allexis.weatherapp.ui.module.splash;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.allexis.weatherapp.R;
@@ -22,7 +22,7 @@ import static com.allexis.weatherapp.core.util.AnimationConstants.SPLASH_ANIM_RE
  * Created by allexis on 10/12/17.
  */
 
-public class SplashScreenActivity extends AppCompatActivity implements Animator.AnimatorListener {
+public class SplashScreenActivity extends Activity implements Animator.AnimatorListener {
 
     private ImageView splashImage;
     private ObjectAnimator splashImageAnimator;

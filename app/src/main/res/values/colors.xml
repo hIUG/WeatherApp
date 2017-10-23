@@ -6,6 +6,7 @@
     <color name="colorBlueIcon">#157EFB</color>
     <color name="colorBlueIconAlpha50">#AA157EFB</color>
     <color name="colorBackgroundLightGrey">#EEEEEE</color>
+    <color name="colorBackgroundLightGreyCardView">#EAEAEA</color>
     <color name="colorGrayDivider">#66999999</color>
     <color name="color_chart_line_temp">#f1be73</color>
     <color name="color_chart_circle_temp">#cc7a00</color>

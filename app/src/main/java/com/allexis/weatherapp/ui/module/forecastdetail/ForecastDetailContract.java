@@ -24,13 +24,17 @@ public interface ForecastDetailContract {
 
     interface Presenter extends BaseContract.BasePresenter {
 
-        void getWeatherByZip(int zipCode);
+        void getWeatherByZip(String zipCode);
 
         void getWeatherByCityId(int cityId);
 
-        void getForecastByZip(int zipCode);
+        void getWeatherByCityName(String cityName);
+
+        void getForecastByZip(String zipCode);
 
         void getForecastByCityId(int cityId);
+
+        void getForecastByCityName(String cityName);
 
         void toggleSave();
     }

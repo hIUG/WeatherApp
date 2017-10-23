@@ -1,4 +1,4 @@
-package com.allexis.weatherapp.core.event;
+package com.allexis.weatherapp.core.event.common;
 
 /**
  * Created by allexis on 10/16/17.
