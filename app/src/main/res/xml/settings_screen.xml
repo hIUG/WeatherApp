@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="@string/key_username"
+        android:title="Username" />
+
+    <ListPreference
+        android:defaultValue="@string/valid_unit_systems_default"
+        android:entries="@array/valid_unit_systems_keys"
+        android:entryValues="@array/valid_unit_systems_keys"
+        android:key="@string/key_preferred_unit_system"
+        android:summary="To display temperature on K, °F or °C"
+        android:title="Preferred units system" />
+
+    <!--<SwitchPreference-->
+    <!--android:title="Notifications"-->
+    <!--android:summary="Display notifications for weather changes"-->
+    <!--android:key="@string/key_display_notifications"/>-->
+</PreferenceScreen>
