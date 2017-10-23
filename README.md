@@ -1,7 +1,7 @@
 # WeatherApp
-Simple application to show wheather information for your current location and other saved locations
+Simple application to show weather information for your current location and other saved locations
 
-This app demostrates the usage of multiple technologies, design patterns, components and librares together to perform as a Weather/Forecast app that displays data for your current location and for specific saved locations through ZIP code search.
+This app demonstrates the usage of multiple technologies, design patterns, components and libraries together to perform as a Weather/Forecast app that displays data for your current location and for specific saved locations through ZIP code search.
 
 The following is a description of the main implementation components.
 
@@ -9,8 +9,8 @@ The following is a description of the main implementation components.
   * Usage of Kotlin data classes to define all Parcelable POJOs in the app (a single line POJO with @Parcelize new annotation) as well as other cool Kotlin features.
 
 - ARCHITECTURE
-  * Clean MVP architecture with a Base Fragment, Activity, Presenter and Contract to make easier to add/remove modules. Implementing Java generic types to work with the Base classes and peroform casting-safe operations.
-  * Singleton instances of Manager classes and abstract classes for base componets.
+  * Clean MVP architecture with a Base Fragment, Activity, Presenter and Contract to make easier to add/remove modules. Implementing Java generic types to work with the Base classes and perform casting-safe operations.
+  * Singleton instances of Manager classes and abstract classes for base components.
 
 - NETWORK
   * Multithreading Caching Network architecture through the usage of IntentService and a thread-safe requests queue (LinkedBlockingQueue).
@@ -25,10 +25,10 @@ The following is a description of the main implementation components.
   * Charts (from com.github.PhilJay:MPAndroidChart)
 
 - ANDROID AND JAVA COMPONENTS
-  * Defined animations on the SplashScreen and on the HomeScreen when the user scrolls down on the RecyclerView of saved locations (when the RV has enough elemts to scroll).
+  * Defined animations on the SplashScreen and on the HomeScreen when the user scrolls down on the RecyclerView of saved locations (when the RV has enough elements to scroll).
   * Usage of Android's DateUtils.getRelativeTimeSpanString() method to display to the user a human-friendly relative time window.
-  * Convenient usage of Java's static code initializers.
+  * Convenient usage of Java's static code initializer.
   * Defined an Android Settings screen using a PreferenceFragment to take advantage of the PreferenceScreen update the preferences on real-time to follow the Android Design guidelines.
   * RuntimePermissions requests and opening the application settings screen for the package getted from the context.
-  * A simple BroadcastReceiver to demostrate the usage of such Android component.
+  * A simple BroadcastReceiver to demonstrate the usage of such Android component.
   * Defined Android compileSdkVersion 26, that means, no need of casting for findViewById() anymore.
