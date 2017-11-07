@@ -9,6 +9,7 @@ androidExtensions {
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
+    flavorDimensions "prod"
     defaultConfig {
         applicationId "com.allexis.weatherapp"
         minSdkVersion 23
@@ -25,6 +26,7 @@ android {
     }
     productFlavors {
         prod {
+            dimension "prod"
             resValue "string", "open_weather_map_api_key", "533c5e9b2b3a36cb5c789c27bd98c50b"
         }
     }
